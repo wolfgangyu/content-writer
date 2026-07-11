@@ -1,0 +1,102 @@
+---
+topic: "沒有真實 stopping condition 的迴圈會靜悄悄地失敗"
+target_audience: "使用 AI agent 進行自動化工作的開發者與產品經理。已經嘗試過 /loop、cron job、automations，但遇到迴圈失控或無效運作的經驗。"
+platforms: ["hugo", "x-thread"]
+tone: "溫暖引導型"
+outline:
+  - section: "引言：你以為在跑迴圈，其實在空轉"
+    key_points:
+      - 多數人設定 loop 時只關心「啟動」，不關心「停止」
+      - 沒有 stopping condition 的迴圈不會爆炸，它只會靜悄悄地浪費 token 和時間
+      - 這篇文章會教你怎麼設計真正的 stopping condition
+    sources:
+      - file: "40_Wiki/Loop_Engineering.md"
+        excerpt: "4 條件測試：Repetition / Automated verification / Token budget / Senior tools。關鍵警告：沒有真實 stopping condition 的 loop 會靜悄悄地失敗。"
+        relevance: "核心論點的直接來源，Loop Engineering 的四條件測試中沒有明確列出 stopping condition，但這正是問題所在"
+      - file: "50_Outputs/zettel_drafts/2026-07-11_drafts.md"
+        excerpt: "卡片 1/3：沒有真實 stopping condition 的迴圈會靜悄悄地失敗。ID：202607111000_StoppingCondition.md"
+        relevance: "你已經在草稿日誌中記錄過這個概念，但還沒有展開成完整文章"
+  - section: "什麼是 stopping condition？"
+    key_points:
+      - stopping condition 不是一個布林值，而是一組可驗證的狀態檢查
+      - 它應該回答三個問題：做完了嗎？做好了嗎？還要繼續嗎？
+      - 常見的錯誤：用時間當 stopping condition（「跑 5 分鐘」vs「做完為止」）
+    sources:
+      - file: "40_Wiki/Loop_Engineering.md"
+        excerpt: "六個構成元件中包含 Automation、Skill、State File、Verifier、Worktrees、Connectors。但缺少明確的 stopping condition 定義。"
+        relevance: "現有框架的盲點——大家專注在迴圈的構造，忽略了什麼時候該停"
+  - section: "三種 stopping condition 模式"
+    key_points:
+      - 數量型：「做完 10 個 issue 為止」— 簡單但可能不夠或太多
+      - 質量型：「所有測試通過且 linter 無警告為止」— 可靠但需要好的驗證器
+      - 混合型：「做完 20 個或連續 3 次沒有找到新 bug 為止」— 兼顧效率與覆蓋率
+    sources:
+      - file: "40_Wiki/Loop_Engineering.md"
+        excerpt: "4 條件測試中的 Token budget 本身就是一種 stopping condition——當預算用完就停。但大多數人沒有設定 budget。"
+        relevance: "token budget 是最常見的 stopping condition，但通常設得太高或根本沒設"
+  - section: "反方觀點：有時候不需要 stopping condition"
+    key_points:
+      - 探索型任務（research、brainstorming）本來就沒有明確的完成狀態
+      - 這時候 stopping condition 應該是「時間」或「人工干預」
+      - 關鍵是區分：你的任務是執行型還是探索型？
+    sources:
+      - file: "10_Sources/20260623_Karpathy_LLM_Knowledge_Bases.md"
+        excerpt: "Karpathy 的 LLM Wiki 模式中，Q&A 和 Lint 是持續進行的，沒有明確的 stopping condition。這是因為它們是探索型任務。"
+        relevance: "提供反方視角——不是所有迴圈都需要 stopping condition"
+  - section: "實作：在你的第一個 loop 中加入 stopping condition"
+    key_points:
+      - CI failure triage：「找到所有 failing tests 且每個都有 assigned fix 為止」
+      - Dependency bump：「所有 major dependency 都檢查過且沒有 conflicts 為止」
+      - 檢查清單：你的 loop 有 stopping condition 嗎？三個問題自測
+    sources:
+      - file: "40_Wiki/Loop_Engineering.md"
+        excerpt: "好的第一個迴圈：CI failure triage、Dependency bump PRs、Lint-and-fix passes、Flaky test reproduction、Issue-to-PR drafts。"
+        relevance: "這些範例都可以加入 stopping condition，是實作的好起點"
+draft_status: "ready"
+generated_at: "2026-07-11T14:00:00+08:00"
+researcher_note: "這份報告基於你已在 zettel_drafts 中記錄的概念（202607111000_StoppingCondition.md）。建議文章長度：中篇（1500-2500字）。目標平台：Hugo Hinode 長文 + X thread（5-8 則）。"
+---
+
+# 研究報告：Stopping Condition
+
+## 主題摘要
+
+這篇文章探討 AI agent 自動化迴圈中「stopping condition」的重要性。核心論點：沒有真實 stopping condition 的迴圈不會爆炸，它只會靜悄悄地浪費 token 和時間。文章提供三種 stopping condition 模式、反方觀點（探索型任務不需要），以及實作檢查清單。
+
+## 受眾分析
+
+- **主要受眾**：使用 Claude Code / Hermes Agent 進行自動化工作的開發者
+- **他們的現況**：已經會設定 /loop 和 automations，但遇到迴圈失控或無效運作的經驗
+- **他們會分享的動機**：這是一個多數人踩過的坑，分享這個可以幫別人省時間
+- **他們想聽的聲音**：實用導向，不要理論，要具體可執行的 stopping condition 設計方法
+
+## 關鍵數據 / 引用
+
+1. **Loop Engineering 四條件測試** 中沒有明確列出 stopping condition，這是框架的盲點
+2. **Karpathy 的 LLM Wiki** 中，探索型任務（Q&A、Lint）不設 stopping condition，但執行型任務需要
+3. **Token budget** 是最常見的 stopping condition，但通常設得太高
+
+## 建議大綱
+
+```
+1. 引言：你以為在跑迴圈，其實在空轉（故事開場：一個靜悄悄浪費 token 的 loop）
+2. 什麼是 stopping condition？（三個問題：做完了嗎？做好了嗎？還要繼續嗎？）
+3. 三種 stopping condition 模式（數量型 / 質量型 / 混合型）
+4. 反方：探索型任務不需要 stopping condition
+5. 實作：在你的 loop 中加 stopping condition（檢查清單）
+6. 結語：設計 stopping condition 是 loop engineering 的最後一塊拼圖
+```
+
+## 潛在論點與反方
+
+- **潛在質疑**：「我已經用時間當 stopping condition 了啊」
+  - **回應**：時間是 stopping condition，但它是懶惰版本。時間 vs 狀態檢查的區別在於：時間不關心任務有沒有真的做完
+
+- **潛在質疑**：「太複雜的 stopping condition 不如不用 loop」
+  - **回應**：是的，如果 stopping condition 比任務本身還難設計，那這個任務不適合自動化。這本身就是一個有用的篩選器
+
+## 與現有知識庫的關係
+
+- **不重複**：你已經在 `202607111000_StoppingCondition.md` 中記錄過這個概念，這篇文章是擴展而非重寫
+- **可連結**：文章中可以 wikilink 到 `[[Loop_Engineering]]` 和 `[[LLM_Wiki_Pattern]]`
+- **可補充**：現有筆記沒有討論三種 stopping condition 模式，這是新貢獻
