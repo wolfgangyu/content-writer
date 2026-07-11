@@ -207,8 +207,9 @@ Thread: [標題]
 
 1. 用戶明確指定路徑
 2. 當前工作目錄下有 `.obsidian/` 目錄 → 使用該目錄
-3. 預設 iCloud 路徑：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/`
-4. 如果都找不到，詢問用戶
+3. macOS 預設 iCloud 路徑：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/`
+4. Windows 預設 iCloud 路徑：`C:/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/KM/`
+5. 如果都找不到，詢問用戶
 
 報告存放路徑：`<vault>/50_Outputs/staging/<topic-slug>.yaml`
 成品輸出路徑：`<vault>/50_Outputs/`

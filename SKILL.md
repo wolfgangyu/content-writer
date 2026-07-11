@@ -36,11 +36,16 @@ description: |
 Hermes（content-researcher）與 Claude Code（content-writer）透過 **Obsidian vault 的 `50_Outputs/staging/` 目錄** 交接。研究報告以標準化 YAML frontmatter 存放，透過 iCloud 同步到所有 Claude Code 機器。
 
 報告路徑：
-```
-~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml
-```
+| 平台 | Obsidian vault 路徑 |
+|------|---------------------|
+| macOS | `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml` |
+| Windows | `C:/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/KM/50_Outputs/staging/<topic-slug>.yaml` |
 
 > 如果 Obsidian vault 路徑不同，每個 SKILL.md 都會註明實際位置。
+
+### 雙 skill 相依 Claude Code
+
+content-writer 依賴 Claude Code。如果 Claude Code 不可用，可改用 Hermes 單 agent 執行完整流程（提議 → 研究 → 寫作 → 輸出），詳細替代方案請見 [content-researcher/SKILL.md](content-researcher/SKILL.md)。
 
 ```yaml
 # content-researcher 輸出 → content-writer 輸入

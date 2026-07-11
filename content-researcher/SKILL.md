@@ -35,11 +35,13 @@ description: |
 **交接機制**：Hermes 把研究報告寫入 Obsidian vault 的 `50_Outputs/staging/` 目錄，Claude Code 從同一個目錄讀取。透過 iCloud 同步，兩邊 agent 都能看到彼此的產出。
 
 **報告存放路徑**：
-```
-~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml
-```
 
-> 如果 Obsidian vault 路徑不同，請在報告開頭註明實際路徑。
+| 平台 | Obsidian vault 路徑 |
+|------|---------------------|
+| macOS | `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml` |
+| Windows | `C:/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/KM/50_Outputs/staging/<topic-slug>.yaml` |
+
+> 如果 Obsidian vault 路徑與預設不同（例如不在 iCloud 同步），請在報告開頭註明實際路徑。
 
 ---
 
@@ -159,13 +161,22 @@ Claude Code 中的 content-writer 會掃描這個目錄，發現新報告時通�
 
 ## 自動提議模式
 
-你可以設定定期自動提議：
+目前 `/content-researcher auto --interval 7d` 是文件宣稱的指令，實際排程請用 **Hermes cron** 包裝：
 
 ```
-/content-researcher auto --interval 7d
+# 每週一早上 9 點自動提議
+hermes cron add "content-researcher propose" --schedule "0 9 * * 1"
+
+# 每 7 天執行一次
+hermes cron add "content-researcher propose" --schedule "@weekly"
 ```
 
-這會每 7 天掃描一次知識庫，有新內容時產生提議清單。
+你也可以自行決定希望何時跑，例如：
+- **每周一早上** — 配合週計畫
+- **每月 1 號** — 月度內容規劃
+- **自訂間隔** — 根據你的更新頻率調整
+
+> 簡單說：**content-researcher 是獨立的**，即使沒有 content-writer 也能完整執行提議 → 研究 → 寫作全流程，只是少了共鳴診斷和平台輸出的自動化。
 
 ---
 
