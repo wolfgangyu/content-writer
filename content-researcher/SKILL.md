@@ -52,6 +52,7 @@ description: |
 - `10_Sources/` — 原始來源文章
 - `50_Outputs/zettel_drafts/` — 已有草稿（避免重複建議）
 - `30_Zettel/003_Permanent/` — 永久筆記（尋找可擴展的概念）
+- `50_Outputs/staging/social-pulse.json` — 每日社群快報（由 social-pulse.py cron job 產出）
 
 ---
 
@@ -64,6 +65,7 @@ description: |
 2. 新攝取的 Sources
 3. 永久筆記中的未展開概念
 4. 草稿日誌中的遺留想法
+5. 今日社群快報中的熱門話題（從 `social-pulse.json` 的 `title` + `source` 欄位提取關鍵字）
 
 ### 步驟 2：交叉比對
 
