@@ -52,7 +52,7 @@ description: |
 - `10_Sources/` — 原始來源文章
 - `50_Outputs/zettel_drafts/` — 已有草稿（避免重複建議）
 - `30_Zettel/003_Permanent/` — 永久筆記（尋找可擴展的概念）
-- `50_Outputs/staging/social-pulse.json` — 每日社群快報（由 social-pulse.py cron job 產出）
+- `50_Outputs/staging/social-pulse.json` — 每日社群快報（由 `social-pulse` cron job 產出，跨機同步）
 
 ---
 
@@ -65,7 +65,7 @@ description: |
 2. 新攝取的 Sources
 3. 永久筆記中的未展開概念
 4. 草稿日誌中的遺留想法
-5. 今日社群快報中的熱門話題（從 `social-pulse.json` 的 `title` + `source` 欄位提取關鍵字）
+5. **今日社群熱點**：從 `social-pulse.json` 提取關鍵字 + 話題、檢查是否已經有相關 Wiki 頁面或草稿
 
 ### 步驟 2：交叉比對
 
@@ -144,6 +144,7 @@ generated_at: "2026-07-11T12:00:00+08:00"
 3. **有深度** — 不只給結論，給出結論背後的推理鏈
 4. **有反方** — 每個主題都準備至少一個反方觀點，讓文章更立體
 5. **可操作** — 結尾要有具體的下一步，不只是抽象概念
+6. **市場對齊** — 建議的主題若能對應社群當日熱門話題，優先提議（示例：指標政策更新、市場突然暴跌/暴漲）
 
 ---
 
