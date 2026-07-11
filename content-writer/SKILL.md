@@ -36,7 +36,7 @@ description: |
 3. **想達到什麼效果？** — 分享、引發討論、建立權威、單純記錄？
 4. **有現成素材嗎？** — 研究報告、筆記、Obsidian 檔案、想法碎片
 
-如果你已經有研究報告（從 Hermes 產出），可以直接給我，我會跳過這步。
+如果你已經有研究報告（從 Hermes 產出，存在 Obsidian 的 `50_Outputs/staging/`），直接告訴我，我會跳過這步。
 
 ### Step 2：協作式大綱
 
@@ -113,12 +113,15 @@ description: "SEO description"
 
 ## 與 Obsidian 的整合
 
-如果你在我的工作目錄中有 Obsidian 知識庫，我會：
+你的 Obsidian vault 是兩個 agent 的共享記憶體。我會：
 
-1. **讀取 Wiki 索引**：避免建議寫過的主題
-2. **引用現有檔案**：在文章中保留 wikilink 格式的參考
-3. **輸出到 Outputs**：把完成的草稿放回 `50_Outputs/`
-4. **更新草稿日誌**：在 `zettel_drafts/` 記錄進度
+1. **讀取研究報告** — 掃描 `50_Outputs/staging/` 中 Hermes 產出的 YAML 報告
+2. **讀取 Wiki 索引** — 避免建議寫過的主題
+3. **引用現有檔案** — 在文章中保留 wikilink 格式的參考
+4. **輸出到 Outputs** — 把完成的草稿放回 `50_Outputs/`
+5. **更新草稿日誌** — 在 `zettel_drafts/` 記錄進度
+
+> **多機器注意事項**：如果你的 Obsidian vault 不在 iCloud 同步路徑（`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/`），請告訴我實際位置，我會調整掃描路徑。
 
 ---
 

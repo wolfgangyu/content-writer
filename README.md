@@ -26,21 +26,31 @@ content-writer/
 ### Claude Code
 
 ```bash
-ln -s /path/to/content-writer/content-writer ~/.claude/skills/content-writer
+# 機器 1 & 2
+ln -sf /path/to/content-writer/content-writer ~/.claude/skills/content-writer
 ```
 
 ### Hermes Agent
 
 ```bash
-ln -s /path/to/content-writer/content-researcher ~/.hermes/skills/content-researcher
+# Hermes 所在機器
+ln -sf /path/to/content-writer/content-researcher ~/.hermes/skills/content-researcher
 ```
 
-或使用 dbs-bridge 風格的橋接腳本：
+### 跨機器同步
 
-```bash
-./content-writer/scripts/bridge.sh link content-writer
-./content-writer/scripts/bridge.sh link content-researcher
+由於 Hermes 與 Claude Code 在三台不同機器上，**不需要橋接腳本**。交接透過 Obsidian vault 的 iCloud 同步完成：
+
 ```
+Hermes 寫入 staging/  →  iCloud 同步  →  Claude Code 讀取
+Claude Code 寫入 Outputs/  →  iCloud 同步  →  Hermes 讀取
+```
+
+### 注意事項
+
+- 確保三台機器都能存取同一份 Obsidian vault（iCloud 同步路徑）
+- 如果 Obsidian vault 路徑不同，每個 SKILL.md 中已註明實際位置
+- 不需要 dbs-bridge 式的軟鏈接，因為交接層在 Obsidian 而非 agent 系統目錄
 
 ## 版本
 

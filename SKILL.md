@@ -16,9 +16,31 @@ description: |
 | `content-researcher` | Hermes Agent | 從 Obsidian 知識庫自動提議主題、產出研究報告 |
 | `content-writer` | Claude Code | 接收報告 → 協作寫作 → 共鳴診斷 → 平台輸出 |
 
+## 架構圖
+
+```
+┌─────────────────────┐         ┌──────────────────────┐
+│  Hermes Agent       │         │  Claude Code (x2)    │
+│  content-researcher │         │  content-writer      │
+│                     │         │                      │
+│  掃描 Obsidian      │         │                      │
+│  提議主題           │         │                      │
+│  產出研究報告       │────────▶│  讀取研究報告         │
+│  寫入 staging/      │  Obsidian iCloud 同步         │  協作寫作
+│                     │         │  輸出成品到 Outputs  │
+└─────────────────────┘         └──────────────────────┘
+```
+
 ## 交接協議
 
-兩個 skill 透過標準化 YAML frontmatter 交接：
+Hermes（content-researcher）與 Claude Code（content-writer）透過 **Obsidian vault 的 `50_Outputs/staging/` 目錄** 交接。研究報告以標準化 YAML frontmatter 存放，透過 iCloud 同步到所有 Claude Code 機器。
+
+報告路徑：
+```
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml
+```
+
+> 如果 Obsidian vault 路徑不同，每個 SKILL.md 都會註明實際位置。
 
 ```yaml
 # content-researcher 輸出 → content-writer 輸入
@@ -40,25 +62,26 @@ generated_at: "2026-07-11T12:00:00+08:00"
 
 ## 使用方式
 
-### 在 Claude Code 中
+### 在 Hermes Agent 中（研究員）
 
 ```bash
-# 從研究報告開始
-content-writer/research-topic.yaml  # 附上 Hermes 產出的報告
+/content-researcher propose    # 自動提議主題
+/content-researcher research <主題>  # 產出研究報告
+```
+
+報告會寫入 Obsidian `50_Outputs/staging/`，iCloud 同步後 Claude Code 即可讀取。
+
+### 在 Claude Code 中（寫作者）
+
+```bash
+# 從研究報告開始寫作
+「讀取 staging 中的最新報告開始寫作」
 
 # 或直接開始寫作
 「幫我寫一篇關於 [主題] 的文章」
 ```
 
-### 在 Hermes Agent 中
-
-```bash
-# 自動提議
-content-researcher/propose            # 掃描知識庫提議主題
-
-# 產出研究報告
-content-researcher/research <topic>   # 針對選定主題產出報告
-```
+成品輸出回 Obsidian `50_Outputs/`，iCloud 同步後 Hermes 也能看到。
 
 ## 核心原則
 

@@ -13,7 +13,33 @@ description: |
 
 1. **自動提議文章主題** — 掃描 Wiki、Sources、草稿日誌，找出還沒寫過但有價值的主題
 2. **產出研究報告** — 針對選定主題，整理來源、摘錄、關鍵數據、正反觀點
-3. **輸出標準化格式** — 產生 YAML frontmatter，直接給 content-writer（Claude Code）接手
+3. **輸出標準化格式** — 產生 YAML frontmatter 報告檔，透過 Obsidian 同步給 content-writer（Claude Code）接手
+
+---
+
+## 跨 Agent 協作架構
+
+```
+┌─────────────────────┐         ┌──────────────────────┐
+│  Hermes Agent       │         │  Claude Code (x2)    │
+│  (研究員)            │         │  (寫作者)              │
+│                     │         │                      │
+│ 1. 掃描 Obsidian    │         │                      │
+│ 2. 提議主題         │         │                      │
+│ 3. 產出研究報告     │────────▶│ 4. 讀取研究報告       │
+│ 4. 寫入 staging/    │  Obsidian iCloud 同步         │ 5. 協作寫作
+│                     │         │ 6. 輸出成品到 Outputs │
+└─────────────────────┘         └──────────────────────┘
+```
+
+**交接機制**：Hermes 把研究報告寫入 Obsidian vault 的 `50_Outputs/staging/` 目錄，Claude Code 從同一個目錄讀取。透過 iCloud 同步，兩邊 agent 都能看到彼此的產出。
+
+**報告存放路徑**：
+```
+~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml
+```
+
+> 如果 Obsidian vault 路徑不同，請在報告開頭註明實際路徑。
 
 ---
 
@@ -119,13 +145,15 @@ generated_at: "2026-07-11T12:00:00+08:00"
 
 ## 與 content-writer 的交接
 
-研究報告完成後，會存放在：
+研究報告完成後，存放在 Obsidian vault 的 `50_Outputs/staging/` 目錄：
 
 ```
-content-writer/staging/<topic-slug>.yaml
+<KM-vault>/50_Outputs/staging/<topic-slug>.yaml
 ```
 
-content-writer 會自動掃描這個目錄，有新報告時通知你。
+Claude Code 中的 content-writer 會掃描這個目錄，發現新報告時通知你開始寫作。
+
+> **注意**：如果 Obsidian vault 路徑與預設不同（例如不在 iCloud 同步），請在報告開頭註明實際路徑，讓 content-writer 能找到。
 
 ---
 
