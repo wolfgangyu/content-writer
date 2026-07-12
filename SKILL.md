@@ -1,9 +1,9 @@
 ---
 name: content-writer
 description: |
-  內容創作夥伴套件。由 content-researcher（Hermes Agent 用，從 Obsidian 知識庫自動提議主題）和 content-writer（Claude Code 用，協作式寫作 → 診斷 → 輸出）組成。
+  內容創作夥伴套件。由 content-researcher（Hermes Agent 用，從 Obsidian 知識庫自動提議主題）和 content-writer（Claude Code 用，協作式寫作 → 四層自檢 → 共鳴診斷 → 平台輸出）組成。
   觸發方式：/content-writer、/寫作夥伴、「幫我寫一篇文章」「從知識庫提議文章主題」
-  Content creation partner suite. content-researcher (Hermes) proposes topics from Obsidian wiki; content-writer (Claude Code) co-writes with warm feedback, resonance diagnosis, and platform output.
+  Content creation partner suite. content-researcher (Hermes) proposes topics from Obsidian wiki; content-writer (Claude Code) co-writes with 4-layer self-check, resonance diagnosis, and platform output.
   Trigger: /content-writer, "help me write an article", "suggest article topics from my knowledge base"
 ---
 
@@ -14,7 +14,7 @@ description: |
 | Skill | Agent | 職責 |
 |-------|-------|------|
 | `content-researcher` | Hermes Agent | 從 Obsidian 知識庫自動提議主題、產出研究報告 |
-| `content-writer` | Claude Code | 接收報告 → 協作寫作 → 共鳴診斷 → 平台輸出 |
+| `content-writer` | Claude Code | 接收報告 → 四層自檢 → 共鳴診斷 → 平台輸出 |
 
 ## 架構圖
 
