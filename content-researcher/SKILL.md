@@ -55,7 +55,155 @@ description: |
 - `10_Sources/` — 原始來源文章
 - `50_Outputs/zettel_drafts/` — 已有草稿（避免重複建議）
 - `30_Zettel/003_Permanent/` — 永久筆記（尋找可擴展的概念）
-- `50_Outputs/staging/social-pulse.json` — 每日社群快報（由 `social-pulse` cron job 產出，跨機同步）
+- `50_Outputs/staging/social-pulse-report.md` — 社群快報（由本 skill 的 `pulse` 指令產生）
+
+---
+
+## 社群快報（Social Pulse）
+
+社群快報是主題提議的核心素材來源，從多個社群平台即時蒐集熱點，產生每日快報供後續研究參考。
+
+### 兩種模式
+
+#### 模式 A：定期自動快掃
+
+```
+/content-researcher pulse --auto
+```
+
+- **頻率**：建議每 6 小時一次（具體排程用 Hermes cron 管理）
+- **搜尋範圍**：`always` 平台（必搜清單見下方）
+- **時間範圍**：最近 24 小時
+- **產出**：
+  1. 完整報告寫入 `{vault}/50_Outputs/staging/social-pulse-report.md`
+  2. Discord 精簡版推播通知
+
+#### 模式 B：手動主題查詢
+
+```
+/content-researcher pulse <主題>
+/content-researcher pulse AI Agent --since 7d
+```
+
+- **搜尋範圍**：所有平台（`always` + `optional`）
+- **時間範圍**：預設 30 天，可用 `--since` 調整
+- **產出**：同一份 Markdown 報告，但聚焦在指定主題
+- **用途**：寫作前的深度背景研究
+
+### 平台清單
+
+Agent 對每個平台自行決定搜尋方式（WebFetch、WebSearch、平台 API 等），無獨立 Python 腳本。
+
+| 分類 | 平台 | 自動快掃 | 備註 |
+|------|------|:---:|------|
+| 台灣社群 | PTT | ✅ | 八卦、Stock、Soft_Job、Tech_Job 等熱門看板 |
+| 台灣社群 | Threads | 📡 | 年輕人主力平台，Agent 自行處理存取；無回傳則標註「資料受限」 |
+| 國際社群 | Reddit | ✅ | r/Entrepreneur、r/marketing、r/productivity、AI 相關子版 |
+| 國際社群 | X/Twitter | ✅ | 即時熱點追蹤 |
+| 國際社群 | Bluesky | 📡 | 新興去中心化平台 |
+| 技術圈 | Hacker News | ✅ | 技術趨勢與討論 |
+| 技術圈 | GitHub | ✅ | 開源專案動態 |
+| 技術圈 | arXiv | 📡 | 學術前沿論文 |
+| 技術圈 | Techmeme | 📡 | 科技新聞聚合 |
+| 專業圈 | LinkedIn | 📡 | 職場與品牌經營趨勢 |
+| 影音 | YouTube | 📡 | 影音內容趨勢 |
+| 影音 | TikTok | 📡 | 短影音與年輕族群話題 |
+| 數據 | Polymarket | 📡 | 市場預測數據 |
+| AI 聚合 | AI HOT | ✅ | aihot.virxact.com，中文 AI 新聞聚合 |
+| 一般 | Web | ✅ | Google/Brave 搜尋補漏 |
+
+✅ = 必搜來源（自動快掃時涵蓋）
+📡 = 能力勾選（Agent 若有對應工具則加入，無工具則跳過）
+
+### 產出格式（全 Markdown）
+
+#### 完整報告：`staging/social-pulse-report.md`
+
+```markdown
+---
+generated_at: 2026-07-30T09:00:00+08:00
+source_count: 36
+mode: auto
+---
+
+# 社群快報 | 2026-07-30
+
+## 🔥 跨平台熱點（3-5 則精選）
+
+**1. Claude Opus 5 系統提示詞完整洩露**
+> "30 個工具的 JSON schema……共 135,027 字元，約 3.4 萬 token" — IT 之家
+📊 AI HOT 熱度 70 | 🔗 [來源](https://aihot.virxact.com/items/...)
+🔑 相關：`prompt-engineering` `leak` `copyright`
+
+## 🤖 AI 與科技
+
+### Claude 生態
+- **Opus 5 洩露**：提示詞完整曝光，含 30 個工具定義與嚴格版權規則（sc 熱度 70）
+
+### 開源與政策
+- ...
+
+## 💡 創業與產品
+
+### Reddit r/Entrepreneur
+- **競爭對手直接抄襲你的產品？**：多位創辦人分享真實經驗
+  > "3h ago · u/Vinent_Liesa"
+
+## 🇹🇼 台灣社群
+
+### PTT
+- **Stock 版**：[話題] 原始討論標題與摘要
+
+### Threads
+（若無回傳則標註：※ Threads 今日資料受限，後續將持續嘗試）
+
+---
+
+## 📋 完整清單
+
+| # | 來源 | 話題 | 熱度 | 相關關鍵字 |
+|---|------|------|------|------------|
+| 1 | AI HOT | Claude Opus 5 提示詞泄露 | 70 | `prompt` `leak` |
+| 2 | PTT | 記憶體巨頭暴跌 | — | `memory` `stock` |
+
+共 N 則 | 自動產生於 YYYY-MM-DD HH:MM
+```
+
+#### Discord 精簡快報
+
+```
+📡 社群情報快報 | 7/30
+
+🔥 熱點 1（熱度 N）
+🔥 熱點 2（熱度 N）
+
+🤖 AI 科技（N 則）
+見完整報告 🔗
+
+💡 創業／產品（N 則）
+見完整報告 🔗
+
+🇹🇼 台灣（N 則）
+見完整報告 🔗
+
+────────────────────────
+共 N 則 | staging/social-pulse-report.md
+```
+
+### 社群快報與主題提議的關聯
+
+```
+社群快報 (social-pulse-report.md)
+    │
+    ▼
+主題提議流程
+├─ 1. 搜尋知識庫（Wiki、Sources）
+├─ 2. 交叉比對（排除已覆蓋主題）
+├─ 3. 讀取社群快報（提取關鍵字 + 話題）
+├─ 4. 提出 3-5 個主題建議（含 HKR 評分）
+│
+└─ 使用者選定主題 → 研究報告 → staging/
+```
 
 ---
 
@@ -68,7 +216,7 @@ description: |
 2. 新攝取的 Sources
 3. 永久筆記中的未展開概念
 4. 草稿日誌中的遺留想法
-5. **今日社群熱點**：從 `social-pulse.json` 提取關鍵字 + 話題、檢查是否已經有相關 Wiki 頁面或草稿
+5. **今日社群熱點**：從 `social-pulse-report.md` 提取關鍵字 + 話題、檢查是否已經有相關 Wiki 頁面或草稿
 
 ### 步驟 2：交叉比對
 

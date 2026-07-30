@@ -24,3 +24,31 @@ supported_platforms:
   - "hugo"
   - "x-thread"
   - "linkedin"
+
+# 社群快報設定（Social Pulse）
+social_pulse:
+  enabled: true
+  auto_interval: 6h
+  # Discord 通知
+  discord_notify: true
+  # 手動查詢預設時間
+  default_lookback: 30d
+  # 平台啟用
+  platforms:
+    always:
+      - "ptt"
+      - "threads"
+      - "reddit"
+      - "x"
+      - "hackernews"
+      - "github"
+      - "aihot"
+      - "web"
+    optional:
+      - "bluesky"
+      - "linkedin"
+      - "youtube"
+      - "tiktok"
+      - "polymarket"
+      - "arxiv"
+      - "techmeme"
