@@ -76,7 +76,9 @@ generated_at: "2026-07-11T12:00:00+08:00"
 ### 在 Hermes Agent 中（研究員）
 
 ```bash
-/content-researcher propose    # 自動提議主題
+/content-researcher pulse --auto    # 定期社群快報（自動多平台掃描）
+/content-researcher pulse <主題>     # 手動查詢特定主題社群討論
+/content-researcher propose         # 自動提議主題
 /content-researcher research <主題>  # 產出研究報告
 ```
 

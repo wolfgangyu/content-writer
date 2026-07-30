@@ -11,7 +11,8 @@ content-writer/
 │   ├── SKILL.md                    # Claude Code 用：寫作技能
 │   └── staging/                    # 接收 Hermes 產出的研究報告
 └── content-researcher/
-    └── SKILL.md                    # Hermes Agent 用：研究技能
+    ├── SKILL.md                    # Hermes Agent 用：研究 + 社群快報
+    └── config.yaml                 # 品牌關鍵字、自動提議、社群快報設定
 ```
 
 ## 設計理念
@@ -59,19 +60,20 @@ Claude Code 寫入 Outputs/  →  iCloud 同步  →  Hermes 讀取
 
 ```
 content-researcher (Hermes)
-  1. 掃描知識庫 + 社群熱點
-  2. HKR 評分提議主題
-  3. 產出研究報告 → staging/
+  1. 社群快報（pulse --auto）→ 多平台熱點蒐集
+  2. 掃描知識庫 + 社群熱點
+  3. HKR 評分提議主題
+  4. 產出研究報告 → staging/
        ↓  Obsidian 同步
 content-writer (Claude Code)
-  4. 讀取研究報告
-  5. AI 角色邊界界定
-  6. 協作式大綱 → 分段寫作
-  7. 四層自檢（L1 硬性 → L2 風格 → L3 內容 → L4 活人感）
-  8. 共鳴診斷（五維框架）
-  9. 平台輸出（Hugo / X Thread）
+  5. 讀取研究報告
+  6. AI 角色邊界界定
+  7. 協作式大綱 → 分段寫作
+  8. 四層自檢（L1 硬性 → L2 風格 → L3 內容 → L4 活人感）
+  9. 共鳴診斷（五維框架）
+  10. 平台輸出（Hugo / X Thread）
 ```
 
 ## 版本
 
-v0.2.0 — 2026-07-12
+v0.3.0 — 2026-07-30
