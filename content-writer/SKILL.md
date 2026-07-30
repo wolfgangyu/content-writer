@@ -303,13 +303,15 @@ Thread: [標題]
 
 ### Obsidian vault 路徑自動偵測
 
-我會按以下優先順序尋找 Obsidian vault：
+我會按以下優先順序尋找 Obsidian vault（支援 macOS / Windows / WSL）：
 
 1. 用戶明確指定路徑
-2. 當前工作目錄下有 `.obsidian/` 目錄 → 使用該目錄
-3. macOS 預設 iCloud 路徑：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/`
-4. Windows 預設 iCloud 路徑：`C:/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/KM/`
-5. 如果都找不到，詢問用戶
+2. 當前工作目錄或父目錄下有 `.obsidian/` 目錄 → 使用該目錄
+3. macOS 預設 iCloud 路徑：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/` 下找 `KM` vault
+4. Windows 預設 iCloud 路徑：`%USERPROFILE%/iCloudDrive/iCloud~md~obsidian/` 下找 `KM`
+5. WSL/Ubuntu 預設路徑：`/mnt/c/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/` 或 `$HOME/iCloudDrive/` 下找 `KM`
+6. 掃描 `$HOME`、`~/Documents`、`~/Obsidian` 等常見位置
+7. 如果都找不到，詢問用戶
 
 報告存放路徑：`<vault>/50_Outputs/staging/<topic-slug>.yaml`
 成品輸出路徑：`<vault>/50_Outputs/`

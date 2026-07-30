@@ -46,10 +46,12 @@
 - **驗證**：
   - 確認 Hermes 讀取 `config.yaml` 時不報錯。
 
+### 任務 1.3：考慮是否要產出 AI agent 專用的 AGENT.md
+
 ---
 
 ## 階段 2：改進 `social-pulse`（2-3 天）
-**目的**：提升熱點資料的可讀性和時效性，對齊 `last30days-skill` 的設計。
+**目的**：提升熱點資料的可讀性和時效性，對齊 `last30days-skill` 的設計，作社群分析的原因有 1) 為了要找到新的資訊與話題作為 threads or BLOG 發文; 2) 找到退休後創業的方向。
 
 ### 任務 2.1：調整輸出格式
 - **行動**：
@@ -78,6 +80,7 @@
   - 新增 `social-pulse-report.md`，自動產生：
     - 熱點趨勢圖（ASCII 或 Mermaid）。
     - 與 KM Wiki 的交叉比對結果。
+    - 可完美支援 Discord channel 顯示格式。
   - 範例：
     ```markdown
     # 社群熱點報告 (2026-07-30)

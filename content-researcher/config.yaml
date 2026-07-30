@@ -1,0 +1,26 @@
+# content-researcher 配置檔
+# 用於 Hermes 自動提議主題的參數設定
+
+# 品牌關鍵字白名單 — 提議主題必須包含至少一個關鍵字
+brand_keywords:
+  - "AI"
+  - "Agent"
+  - "醫療"
+  - "產品管理"
+  - "循環經濟"
+  - "永續"
+
+# 自動提議設定
+auto_propose:
+  enabled: true
+  default_interval: 7d
+  dynamic_adjust: true  # 根據知識庫更新頻率動態調整提議頻率
+
+# 社群熱點過期天數
+trend_expiry_days: 7
+
+# 平台支援
+supported_platforms:
+  - "hugo"
+  - "x-thread"
+  - "linkedin"

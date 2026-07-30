@@ -34,14 +34,17 @@ description: |
 
 **交接機制**：Hermes 把研究報告寫入 Obsidian vault 的 `50_Outputs/staging/` 目錄，Claude Code 從同一個目錄讀取。透過 iCloud 同步，兩邊 agent 都能看到彼此的產出。
 
-**報告存放路徑**：
+**Vault 路徑自動偵測**：由於執行平台可能是 macOS / Windows / WSL (Ubuntu)，請勿寫死路徑。執行時依以下步驟定位：
 
-| 平台 | Obsidian vault 路徑 |
-|------|---------------------|
-| macOS | `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml` |
-| Windows | `C:/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/KM/50_Outputs/staging/<topic-slug>.yaml` |
+1. 檢查當前目錄或父目錄是否包含 `.obsidian/` → 即為 vault。
+2. 依平台搜尋 iCloud 同步位置：
+   - **macOS**：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/` 下找 `KM` vault。
+   - **Windows**：`%USERPROFILE%/iCloudDrive/iCloud~md~obsidian/` 下找 `KM`。
+   - **WSL/Ubuntu**：`/mnt/c/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/` 或 `$HOME/iCloudDrive/` 下找 `KM`。
+3. 都找不到時掃描 `$HOME`、`~/Documents` 等常見位置。
+4. 仍找不到則詢問使用者提供絕對路徑。
 
-> 如果 Obsidian vault 路徑與預設不同（例如不在 iCloud 同步），請在報告開頭註明實際路徑。
+> 找到 vault 後，交接目錄為 `{vault}/50_Outputs/staging/`。
 
 ---
 

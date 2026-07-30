@@ -35,13 +35,19 @@ description: |
 
 Hermes（content-researcher）與 Claude Code（content-writer）透過 **Obsidian vault 的 `50_Outputs/staging/` 目錄** 交接。研究報告以標準化 YAML frontmatter 存放，透過 iCloud 同步到所有 Claude Code 機器。
 
-報告路徑：
-| 平台 | Obsidian vault 路徑 |
-|------|---------------------|
-| macOS | `~/Library/Mobile Documents/iCloud~md~obsidian/Documents/KM/50_Outputs/staging/<topic-slug>.yaml` |
-| Windows | `C:/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/KM/50_Outputs/staging/<topic-slug>.yaml` |
+### Vault 路徑自動偵測
 
-> 如果 Obsidian vault 路徑不同，每個 SKILL.md 都會註明實際位置。
+由於 Hermes 和 Claude Code 可能執行在 macOS / Windows / WSL (Ubuntu) 等不同平台，**請勿寫死路徑**。執行時依以下步驟定位 Obsidian vault：
+
+1. 檢查當前工作目錄或其父目錄是否包含 `.obsidian/` 資料夾 → 即為 vault 根目錄。
+2. 若無，依平台搜尋 iCloud 同步位置：
+   - **macOS**：`~/Library/Mobile Documents/iCloud~md~obsidian/Documents/` 下找名為 `KM` 的 vault。
+   - **Windows**：`%USERPROFILE%/iCloudDrive/iCloud~md~obsidian/` 下找 `KM`。
+   - **WSL/Ubuntu**：從 `/mnt/c/Users/<使用者>/iCloudDrive/iCloud~md~obsidian/` 或 `$HOME/iCloudDrive/` 下找 `KM`。
+3. 若上述都沒有，改為掃描 `$HOME`、`~/Documents`、`~/Obsidian` 等常見位置，尋找含有 `KM` 且內有 `.obsidian/` 的目錄。
+4. 完全找不到時，**詢問使用者**提供 vault 絕對路徑。
+
+> 找到 vault 後，交接目錄一律為 `{vault}/50_Outputs/staging/`。
 
 ### 雙 skill 相依 Claude Code
 
