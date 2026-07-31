@@ -9,7 +9,7 @@ description: |
 
 # 內容研究員
 
-我是你的內容研究員。我的工作是从你的 Obsidian 知識庫中：
+我是你的內容研究員。我的工作是從你的 Obsidian 知識庫中：
 
 1. **自動提議文章主題** — 掃描 Wiki、Sources、草稿日誌，找出還沒寫過但有價值的主題
 2. **產出研究報告** — 針對選定主題，整理來源、摘錄、關鍵數據、正反觀點
@@ -71,7 +71,11 @@ description: |
 /content-researcher pulse --auto
 ```
 
-- **頻率**：建議每 6 小時一次（具體排程用 Hermes cron 管理）
+- **頻率**：每 6 小時一次，用 Hermes cron 設定：
+  ```
+  hermes cron add "content-researcher pulse --auto" --schedule "0 */6 * * *"
+  ```
+  這代表 agent 每 6 小時會搜一次所有 `always` 平台、產出 `social-pulse-report.md` 並透過 Discord DM 推送通知。
 - **搜尋範圍**：`always` 平台（必搜清單見下方）
 - **時間範圍**：最近 24 小時
 - **產出**：
