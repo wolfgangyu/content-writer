@@ -76,7 +76,7 @@ description: |
 - **時間範圍**：最近 24 小時
 - **產出**：
   1. 完整報告寫入 `{vault}/50_Outputs/staging/social-pulse-report.md`
-  2. Discord 精簡版推播通知
+  2. Discord **DM** 精簡版推播通知（⚠️ 一律發 DM，不發 channel — 這些通知需要你看到、可能互動）
 
 #### 模式 B：手動主題查詢
 
@@ -171,24 +171,26 @@ mode: auto
 
 #### Discord 精簡快報
 
+> ⚠️ **Discord Markdown 限制**：不支援表格、水平線 (`---`/`***`)、圖片 `![]()`。以下範例僅使用 Discord 支援的語法：標題 `#`、粗體 `**`、斜體 `*`、引用 `>`、code block、列表。
+
 ```
-📡 社群情報快報 | 7/30
+📡 **社群情報快報** | 7/30
 
-🔥 熱點 1（熱度 N）
-🔥 熱點 2（熱度 N）
+### 🔥 熱點 1（熱度 70）
+### 🔥 熱點 2（熱度 65）
 
-🤖 AI 科技（N 則）
-見完整報告 🔗
+### 🤖 AI 科技（N 則）
+> 見完整報告 🔗
 
-💡 創業／產品（N 則）
-見完整報告 🔗
+### 💡 創業／產品（N 則）
+> 見完整報告 🔗
 
-🇹🇼 台灣（N 則）
-見完整報告 🔗
+### 🇹🇼 台灣（N 則）
+> 見完整報告 🔗
 
-────────────────────────
-共 N 則 | staging/social-pulse-report.md
+共 N 則  ·  staging/social-pulse-report.md
 ```
+> **備註**：若 AI agent 實作 Discord embed 方式（`/webhook`），則可用 rich embed 欄位，不受上述限制。但純文字訊息務必遵守。
 
 ### 社群快報與主題提議的關聯
 
@@ -335,6 +337,8 @@ hermes cron add "content-researcher propose" --schedule "0 9 * * 1"
 # 每 7 天執行一次
 hermes cron add "content-researcher propose" --schedule "@weekly"
 ```
+
+⚠️ **通知一律發 Discord DM**，不要發 channel。這些自動排程產出的內容（社群快報、主題提議、日記提醒）都需要你看到並可能互動 — DM 才有通知鈴聲，channel 會被洗掉。
 
 你也可以自行決定希望何時跑，例如：
 - **每周一早上** — 配合週計畫

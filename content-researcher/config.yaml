@@ -31,6 +31,14 @@ social_pulse:
   auto_interval: 6h
   # Discord 通知
   discord_notify: true
+  discord:
+    # DM：需要使用者互動、回應的通知（社群快報、主題提議、日記提醒等）
+    dm:
+      - "社群快報（精簡版）"
+      - "主題提議通知"
+    # Channel：純廣播、不需互動的通知
+    channel:
+      - "系統狀態（上線/離線通知）"
   # 手動查詢預設時間
   default_lookback: 30d
   # 平台啟用
