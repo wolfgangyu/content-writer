@@ -28,7 +28,7 @@ supported_platforms:
 # 社群快報設定（Social Pulse）
 social_pulse:
   enabled: true
-  auto_interval: 6h
+  auto_interval: 24h
   # Discord 通知
   discord_notify: true
   discord:
@@ -44,16 +44,16 @@ social_pulse:
   # 平台啟用
   platforms:
     always:
-      - "ptt"
-      - "threads"
+      - "aihot"
       - "reddit"
-      - "x"
       - "hackernews"
       - "github"
-      - "aihot"
+      - "ptt"
       - "web"
     optional:
+      - "x"
       - "bluesky"
+      - "threads"
       - "linkedin"
       - "youtube"
       - "tiktok"

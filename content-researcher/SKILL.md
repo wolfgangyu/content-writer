@@ -71,15 +71,15 @@ description: |
 /content-researcher pulse --auto
 ```
 
-- **頻率**：每 6 小時一次，用 Hermes cron 設定：
+- **頻率**：每天一次，用 Hermes cron 設定（建議早上 9 點）：
   ```
-  hermes cron add "content-researcher pulse --auto" --schedule "0 */6 * * *"
+  hermes cron add "content-researcher pulse --auto" --schedule "0 9 * * *"
   ```
-  這代表 agent 每 6 小時會搜一次所有 `always` 平台、產出 `social-pulse-report.md` 並透過 Discord DM 推送通知。
+  這代表 agent 每天會搜一次所有 `always` 平台、產出 `social-pulse-report.md` 並透過 Discord DM 推送通知。
 - **搜尋範圍**：`always` 平台（必搜清單見下方）
 - **時間範圍**：最近 24 小時
 - **產出**：
-  1. 完整報告寫入 `{vault}/50_Outputs/staging/social-pulse-report.md`
+  1. 完整報告寫入 `{vault}/50_Outputs/staging/social-pulse-report.md`（**覆蓋策略**：每天一份，覆蓋前一天的檔案，不保留歷史；如需歷史資料，手動執行 `pulse <主題>` 並指定檔案名）
   2. Discord **DM** 精簡版推播通知（⚠️ 一律發 DM，不發 channel — 這些通知需要你看到、可能互動）
 
 #### 模式 B：手動主題查詢
@@ -100,9 +100,9 @@ Agent 對每個平台自行決定搜尋方式（WebFetch、WebSearch、平台 AP
 
 | 分類 | 平台 | 自動快掃 | 備註 |
 |------|------|:---:|------|
-| 台灣社群 | PTT | ✅ | 八卦、Stock、Soft_Job、Tech_Job 等熱門看板 |
-| 台灣社群 | Threads | 📡 | 年輕人主力平台，Agent 自行處理存取；無回傳則標註「資料受限」 |
-| 國際社群 | Reddit | ✅ | r/Entrepreneur、r/marketing、r/productivity、AI 相關子版 |
+| 台灣社群 | PTT | ✅ | 八卦、Stock、Soft_Job、Tech_Job 等熱門看板；Fallback：改用 Firecrawl `/search` 搜「ptt 熱門 看板」 |
+| 台灣社群 | Threads | 📡 | 年輕人主力平台；Fallback：若無回傳，標註「※ Threads 今日資料受限」並繼續下一項 |
+| 國際社群 | Reddit | ✅ | r/ai、r/technology、r/productivity、AI 相關子版；不查 r/Entrepreneur（與品牌定位無關） |
 | 國際社群 | X/Twitter | ✅ | 即時熱點追蹤 |
 | 國際社群 | Bluesky | 📡 | 新興去中心化平台 |
 | 技術圈 | Hacker News | ✅ | 技術趨勢與討論 |
@@ -118,6 +118,9 @@ Agent 對每個平台自行決定搜尋方式（WebFetch、WebSearch、平台 AP
 
 ✅ = 必搜來源（自動快掃時涵蓋）
 📡 = 能力勾選（Agent 若有對應工具則加入，無工具則跳過）
+
+> **搜尋順序原則**：優先 AI HOT（中文 AI 聚合）→ Reddit/HN（國際熱點）→ PTT（台灣社群）→ X/Twitter（即時熱點）→ WebSearch 補漏。
+> **品牌過濾**：搜尋時優先智慧醫療、AI Agent、Product Management 相關關鍵字；過濾掉與品牌定位無關的內容（如純創業討論、一般投資話題）。
 
 ### 產出格式（全 Markdown）
 
@@ -153,10 +156,13 @@ search_sources:
 ### 開源與政策
 - ...
 
-## 💡 創業與產品
+## 🏥 智慧醫療
 
-### Reddit r/Entrepreneur
-- **事件描述**：一句話摘要 🔗 [來源](https://...) · 3h ago
+### AI 診斷與影像
+- **事件描述**：一句話摘要 🔗 [來源](https://...)
+
+### 醫療 AI 代理
+- ...
 
 ## 🇹🇼 台灣社群
 
@@ -208,7 +214,7 @@ search_sources:
 ### 🤖 AI 科技（N 則）
 > 見完整報告 🔗
 
-### 💡 創業／產品（N 則）
+### 🏥 智慧醫療（N 則）
 > 見完整報告 🔗
 
 ### 🇹🇼 台灣（N 則）
