@@ -124,21 +124,27 @@ Agent 對每個平台自行決定搜尋方式（WebFetch、WebSearch、平台 AP
 generated_at: 2026-07-30T09:00:00+08:00
 source_count: 36
 mode: auto
+search_sources:
+  - "AI HOT (aihot.virxact.com)"
+  - "PTT (各熱門看板)"
+  - "Reddit (r/ai, r/technology, ...)"
+  - "X/Twitter"
+  - "Hacker News"
+  - "GitHub"
+  - "Google/Brave 搜尋"
 ---
 
 # 社群快報 | 2026-07-30
 
 ## 🔥 跨平台熱點（3-5 則精選）
 
-**1. Claude Opus 5 系統提示詞完整洩露**
-> "30 個工具的 JSON schema……共 135,027 字元，約 3.4 萬 token" — IT 之家
-📊 AI HOT 熱度 70 | 🔗 [來源](https://aihot.virxact.com/items/...)
-🔑 相關：`prompt-engineering` `leak` `copyright`
+**1. [精選主題標題]** > "一句摘要" 📊 熱度 70 · 來源：AI HOT
+🔗 [原文連結](https://...)
 
 ## 🤖 AI 與科技
 
 ### Claude 生態
-- **Opus 5 洩露**：提示詞完整曝光，含 30 個工具定義與嚴格版權規則（sc 熱度 70）
+- **事件描述**：一句話摘要 🔗 [來源](https://...)
 
 ### 開源與政策
 - ...
@@ -146,13 +152,12 @@ mode: auto
 ## 💡 創業與產品
 
 ### Reddit r/Entrepreneur
-- **競爭對手直接抄襲你的產品？**：多位創辦人分享真實經驗
-  > "3h ago · u/Vinent_Liesa"
+- **事件描述**：一句話摘要 🔗 [來源](https://...) · 3h ago
 
 ## 🇹🇼 台灣社群
 
 ### PTT
-- **Stock 版**：[話題] 原始討論標題與摘要
+- **Stock 版**：[話題] 原始討論標題與摘要 🔗 [原文](https://...)
 
 ### Threads
 （若無回傳則標註：※ Threads 今日資料受限，後續將持續嘗試）
@@ -161,13 +166,30 @@ mode: auto
 
 ## 📋 完整清單
 
-| # | 來源 | 話題 | 熱度 | 相關關鍵字 |
-|---|------|------|------|------------|
-| 1 | AI HOT | Claude Opus 5 提示詞泄露 | 70 | `prompt` `leak` |
-| 2 | PTT | 記憶體巨頭暴跌 | — | `memory` `stock` |
+| # | 來源 | 話題 | 熱度 | 🔗 連結 |
+|---|------|------|------|---------|
+| 1 | AI HOT | Claude Opus 5 提示詞泄露 | 70 | [連結](https://...) |
+| 2 | PTT | 記憶體巨頭暴跌 | — | [連結](https://...) |
+
+## 🔍 資料來源
+
+本報告透過以下方式蒐集：
+| 搜尋方式 | 來源/工具 | 備註 |
+|----------|----------|------|
+| AI HOT API | aihot.virxact.com | 中文 AI 新聞聚合 |
+| WebSearch | Google/Brave | 一般關鍵字補漏 |
+| WebFetch | PTT、Reddit、HN、GitHub | 各平台熱門頁面 |
+| Firecrawl | 需要深層爬取的目標頁 | 委託 betelgeuse agent 執行 `/scrape` 或 `/search` |
 
 共 N 則 | 自動產生於 YYYY-MM-DD HH:MM
 ```
+
+#### 內容規範
+
+1. **每條資訊必須附來源連結**：不接受純摘要，每個條目後面必須有 `🔗 [來源](URL)` 或 `🔗 [原文](URL)` 的連結標註
+2. **醫療相關僅聚焦智慧醫療**：智慧醫療（數位健康、AI 診斷、醫療資訊系統、遠距醫療、穿戴裝置）、醫療 AI 代理、醫療數據治理。排除純醫療政策、健保制度、一般臨床研究（除非涉及 AI/科技）
+3. **分類去重**：跨平台熱點與各分類下方為不同呈現層級 — 熱點區只放「跨平台都在討論」的話題，各分類（AI 與科技、醫療、台灣社群）放該領域專屬話題，不得重複
+4. **品牌關鍵字加權**：搜尋時優先相關品牌關鍵字（遠傳電信、FarEasTone、FET、遠傳心生活、FriDay、智慧醫療、telemedicine、digital health、AI diagnostics），但報告中不刻意強調品牌，只保留真實相關的資訊
 
 #### Discord 精簡快報
 
@@ -192,7 +214,19 @@ mode: auto
 ```
 > **備註**：若 AI agent 實作 Discord embed 方式（`/webhook`），則可用 rich embed 欄位，不受上述限制。但純文字訊息務必遵守。
 
-### 社群快報與主題提議的關聯
+### 資料來源與搜尋提示
+
+```
+搜尋層級
+├─ WebSearch（Google/Brave）：快速補漏，取得標題與摘要
+├─ WebFetch：直接爬取 PTT、Reddit、HN、GitHub 等公開頁面
+└─ Firecrawl（委託 betelgeuse agent）：深度爬取場景
+    ├─ /scrape：需要完整內容的目標頁面（如部落格文章、新聞稿）
+    ├─ /search：特定主題的即時搜尋結果（如「智慧醫療 台灣 2026」）
+    └─ /interact：需要登入或互動的頁面（如 LinkedIn、Threads）
+```
+
+> **提示**：若 agent 具備 Firecrawl 能力，建議優先使用 `/search` 進行主題搜尋並取得結構化結果，再用 `/scrape` 提取具體頁面的完整內容。若 agent 不具備 Firecrawl 能力，退回使用 WebSearch + WebFetch。
 
 ```
 社群快報 (social-pulse-report.md)
